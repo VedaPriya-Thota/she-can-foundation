@@ -68,16 +68,17 @@ Nonprofit organizations routinely face a fragmented operational reality: outreac
 ---
 
 ## Screenshots
+| View                              | Preview                                                     |
+| --------------------------------- | ----------------------------------------------------------- |
+| Landing Page — Homepage           | ![Homepage](./screenshots/Homepage.png)                     |
+| Landing Page — Hero Section       | ![Hero Section](./screenshots/hero-section.png)             |
+| Landing Page — Testimonials & FAQ | ![Testimonials FAQ](./screenshots/testimonials-faq.png)     |
+| Contact Support Form              | ![Contact Support](./screenshots/contact_support.png)       |
+| Admin Login                       | ![Admin Login](./screenshots/admin-login.png)               |
+| Admin Dashboard — Overview        | ![Dashboard Overview](./screenshots/dashboard-overview.png) |
+| Analytics Charts                  | ![Analytics](./screenshots/analytics.png)                   |
+| Message Management Table          | ![Message Table](./screenshots/message-table.png)           |
 
-| View | Preview |
-|---|---|
-| Landing Page — Hero | *(Add Screenshot)* |
-| Landing Page — Testimonials & FAQ | *(Add Screenshot)* |
-| Admin Login | *(Add Screenshot)* |
-| Admin Dashboard — Overview | *(Add Screenshot)* |
-| Message Management Table | *(Add Screenshot)* |
-| Analytics Charts | *(Add Screenshot)* |
-| Mobile Responsive View | *(Add Screenshot)* |
 
 ---
 
