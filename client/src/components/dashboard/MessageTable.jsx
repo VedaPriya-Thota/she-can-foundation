@@ -1,6 +1,7 @@
-import { Trash2, ChevronDown } from "lucide-react";
+import { Trash2, ChevronDown, SearchX } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { formatDate } from "../../utils/dateFormatter";
+import EmptyState from "./EmptyState";
 
 const rowVariants = {
   hidden: { opacity: 0, y: 15 },
@@ -57,9 +58,11 @@ const MessageTable = ({
 
   if (filteredMessages.length === 0) {
     return (
-      <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-3xl p-16 text-center text-lg text-gray-300">
-        No support submissions found
-      </div>
+      <EmptyState
+        icon={SearchX}
+        title="No messages found"
+        description="Try adjusting your search term or filter to find what you're looking for."
+      />
     );
   }
 

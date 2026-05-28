@@ -6,8 +6,10 @@ import { CSVLink } from "react-csv";
 import Sidebar from "../components/dashboard/Sidebar";
 import StatsCards from "../components/dashboard/StatsCards";
 import SearchBar from "../components/dashboard/SearchBar";
+import StatusFilter from "../components/dashboard/StatusFilter";
 import MessageTable from "../components/dashboard/MessageTable";
 import AnalyticsChart from "../components/dashboard/AnalyticsChart";
+import RecentActivity from "../components/dashboard/RecentActivity";
 import { getMessages, deleteMessage, updateMessageStatus } from "../api/messageApi";
 
 const Dashboard = () => {
@@ -20,6 +22,8 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [statusFilter, setStatusFilter] = useState("All");
 
   const [sidebarOpen, setSidebarOpen] =
     useState(false);
@@ -99,16 +103,26 @@ const Dashboard = () => {
     fetchMessages();
   }, []);
 
-  // Filter
-  const filteredMessages = messages.filter(
-    (msg) =>
-      msg.name
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      msg.email
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-  );
+  // Compute message counts for the filter badges
+  const messageCounts = {
+    All: messages.length,
+    New: messages.filter((msg) => !msg.status || msg.status === "New").length,
+    Reviewed: messages.filter((msg) => msg.status === "Reviewed").length,
+    Responded: messages.filter((msg) => msg.status === "Responded").length,
+  };
+
+  // Combined search + status filter pipeline
+  const filteredMessages = messages.filter((msg) => {
+    const matchesSearch =
+      msg.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      msg.email.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesStatus =
+      statusFilter === "All" ||
+      (msg.status || "New") === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <div className="min-h-screen bg-slate-950 text-white flex">
@@ -166,14 +180,33 @@ const Dashboard = () => {
         {/* Stats */}
         <StatsCards messages={messages} loading={loading} />
 
-        {/* Analytics */}
-        <AnalyticsChart messages={messages} />
+        {/* Analytics + Recent Activity */}
+        <div className="grid lg:grid-cols-4 gap-6 mb-10">
+          {/* Analytics takes 3/4 */}
+          <div className="lg:col-span-3">
+            <AnalyticsChart messages={messages} />
+          </div>
 
-        {/* Search */}
-        <SearchBar
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-        />
+          {/* Recent Activity takes 1/4 */}
+          <div className="lg:col-span-1">
+            <RecentActivity messages={messages} />
+          </div>
+        </div>
+
+        {/* Search + Status Filters */}
+        <div className="flex flex-col lg:flex-row lg:items-start gap-4 mb-8">
+          <div className="flex-1">
+            <SearchBar
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
+          </div>
+          <StatusFilter
+            activeFilter={statusFilter}
+            setActiveFilter={setStatusFilter}
+            messageCounts={messageCounts}
+          />
+        </div>
 
         {/* Table */}
         <MessageTable
